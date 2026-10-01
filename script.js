@@ -2,6 +2,7 @@
 window.addEventListener('load', () => {
     const loadingScreen = document.getElementById('loadingScreen');
     if (loadingScreen) {
+        try { localStorage.setItem('loaderSeen', '1'); } catch (e) {}
         setTimeout(() => {
             loadingScreen.classList.add('hidden');
         }, 1500);
@@ -73,67 +74,107 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 
-// Intersection Observer for fade-in animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const observer = new IntersectionObserver((entries) => {
+// Terminal-style "print" reveal: blocks snap in line by line instead of fading
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.classList.add('printed');
+            revealObserver.unobserve(entry.target);
         }
     });
-}, observerOptions);
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-// Observe experience items
-const experienceItems = document.querySelectorAll('.experience-item');
-experienceItems.forEach((item, index) => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(20px)';
-    item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-    observer.observe(item);
-});
+if (!prefersReducedMotion) {
+    document.querySelectorAll('.experience-item, .skill-category, .education-item, .ai-principles li').forEach(el => {
+        const siblings = Array.from(el.parentElement.children);
+        el.classList.add('print');
+        el.style.animationDelay = `${(siblings.indexOf(el) % 4) * 0.08}s`;
+        revealObserver.observe(el);
+    });
+}
 
-// Observe skill categories
-const skillCategories = document.querySelectorAll('.skill-category');
-skillCategories.forEach((category, index) => {
-    category.style.opacity = '0';
-    category.style.transform = 'translateY(20px)';
-    category.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-    observer.observe(category);
-});
+// Section titles decode from random characters, like a terminal resolving output
+const GLYPHS = '!<>-_\\/[]{}=+*^?#01';
 
-// Observe education items
-const educationItems = document.querySelectorAll('.education-item');
-educationItems.forEach((item, index) => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(20px)';
-    item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-    observer.observe(item);
-});
+function scramble(el, duration = 600) {
+    const target = el.dataset.text;
+    const start = performance.now();
+    function frame(now) {
+        const progress = Math.min(1, (now - start) / duration);
+        const resolved = Math.floor(progress * target.length);
+        let out = target.slice(0, resolved);
+        for (let i = resolved; i < target.length; i++) {
+            out += target[i] === ' ' ? ' ' : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        }
+        el.textContent = out;
+        if (progress < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+}
 
-// Add active state to navigation links based on scroll position
+if (!prefersReducedMotion) {
+    const titleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                scramble(entry.target);
+                titleObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll('.section-title').forEach(title => {
+        title.dataset.text = title.textContent;
+        titleObserver.observe(title);
+    });
+}
+
+// Hero title types itself out once the loader is gone.
+// The untyped part stays in the layout (invisible) so the line never reflows.
+const heroTitleText = document.querySelector('.hero-title-text');
+const heroCursor = document.querySelector('.hero-title .ascii-cursor');
+if (heroTitleText && heroCursor && !prefersReducedMotion) {
+    const full = heroTitleText.textContent;
+    const loaderVisible = !document.documentElement.classList.contains('no-loader');
+    const render = (i) => {
+        heroTitleText.innerHTML = '';
+        heroTitleText.append(full.slice(0, i), heroCursor);
+        const ghost = document.createElement('span');
+        ghost.className = 'typing-ghost';
+        ghost.textContent = full.slice(i);
+        heroTitleText.append(ghost);
+    };
+    render(0);
+    setTimeout(() => {
+        let i = 0;
+        const timer = setInterval(() => {
+            render(++i);
+            if (i >= full.length) clearInterval(timer);
+        }, 70);
+    }, loaderVisible ? 1900 : 300);
+}
+
+// Highlight the nav link of the section currently in view
 const sections = document.querySelectorAll('section[id]');
 
-window.addEventListener('scroll', () => {
-    const scrollY = window.pageYOffset;
-
-    sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
             navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${sectionId}`) {
-                    link.classList.add('active');
-                }
+                link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
             });
         }
     });
-});
+}, { rootMargin: '-45% 0px -55% 0px' });
 
+sections.forEach(section => sectionObserver.observe(section));
+
+// The last section may be too short to reach the middle of the viewport
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        navLinks[navLinks.length - 1].classList.add('active');
+    }
+});

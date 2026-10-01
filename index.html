@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Juxhin Bleta - Portfolio">
     <title>Juxhin Bleta - Portfolio</title>
+    <script>
+        try { if (localStorage.getItem('loaderSeen')) document.documentElement.classList.add('no-loader'); } catch (e) {}
+    </script>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Loading Screen -->
@@ -23,7 +26,7 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <img src="https://github.com/JuxhinB.png" alt="Juxhin Bleta" class="nav-profile-picture">
+                <img src="avatar.jpg" alt="Juxhin Bleta" class="nav-profile-picture">
                 <span>Juxhin Bleta</span>
                 <a href="https://www.oxfordlearnersdictionaries.com/definition/english/eugene" target="_blank" rel="noopener noreferrer" class="pronunciation-link" aria-label="Pronunciation">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -34,6 +37,7 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="#about">About</a></li>
+                <li><a href="#ai">AI</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#education">Education</a></li>
@@ -51,21 +55,136 @@
     <section id="about" class="section hero">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-visual"></div>
+                <pre class="hero-visual ascii-portrait" role="img" aria-label="ASCII portrait of Juxhin">         #%@@@@@%
+      #@@@%%%%%%%###
+    #@@@%%%%%%##****=
+  ===-=+#####********
+    ...:..:::--:-==+
+    -:--...:-==----
+     =-:--=====---:
+     :---:-=--:--::
+      :.::....:-:::
+       .....:--=++***
+          ++*#%%%%%%%%#
+          #%%%%%%%%%%%@#
+          %%%%%%%%%%%%%@+
+         %%%%%@%%%%%%%%%+
+        %@%@%%%%%%%%%%%%#+
+       %@%%%%%%%%%%%%%#%#+
+      #@%%%%@%%%%%%%%%%%##
+     +%@%%%%%%%%%%%%%#%%**
+     *%%%%%@%%%%%%%%##%#+*
+     %%%%%@%%%%%%%%%##*+++
+     @%%%%@%%%%%%%%%#*:+##
+     %%%%%@%%%%%%%%###*#**
+    %%%%%@@%%%%%%%%###+*##
+    %%%%%%***#%%%%###*###
+    %%%%%#:::::-=*####%##
+    @@@#*=::::::-*#######
+    %%%#-::::::=#########
+    @%%+::::::=##########
+    @@#-:::::-*##########
+  @@@%-:::::-*############
+ @@@@=-:::-=*###%#######%#
+-@@@=-::::+####%##%%%%%%##
+:@@+-:::-*########%%%%%%##
+.==-::-=##################
+ *#*-:=#########%%#######
++=**--##########%####%%#
+=---==+**##%%%%%%%%%##+</pre>
                 <div>
+                    <p class="ascii-prompt">$ whoami</p>
                     <p class="hero-greeting">Hi, I'm Juxhin.</p>
-                    <h1 class="hero-title">Frontend Dev</h1>
+                    <h1 class="hero-title"><span class="hero-title-text">Frontend Engineer</span><span class="ascii-cursor" aria-hidden="true">_</span></h1>
                     <p class="hero-subtitle">Amsterdam, Netherlands</p>
                     <div class="about-text">
-                        <p>I enjoy solving problems and building things, and at the same time I am goal-oriented and never miss the eye for detail. I'm a team player who gets along well with others. I am always open to feedback and new ideas, and I believe that collaboration is key to success.</p>
+                        <p>Frontend engineer working mostly in React and TypeScript. I've set up module federation across teams, built design systems from Figma, and shipped React Native apps with payments. I also work on the Node/GraphQL side, use AI tools in my daily workflow, and co-lead our front-end chapter.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- AI Section -->
+    <section id="ai" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">Artificial 'Intelligence'</h2>
+
+            <p class="ai-command">$ cat philosophy.md</p>
+            <ol class="ai-principles">
+                <li>
+                    <span class="ai-principle-num">01</span>
+                    <div>
+                        <h3 class="ai-principle-title">Second brain</h3>
+                        <p>Capture knowledge (docs, decisions, context) so that both people and AI agents can build on it, instead of starting from zero each time.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="ai-principle-num">02</span>
+                    <div>
+                        <h3 class="ai-principle-title">Fit AI into human workflows</h3>
+                        <p>Adapt AI to how teams already work; don't force teams around the tool. Start small, keep humans in the loop, and expand what works.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="ai-principle-num">03</span>
+                    <div>
+                        <h3 class="ai-principle-title">Observe, then improve</h3>
+                        <p>Use telemetry to see where AI actually helps or slows things down, then improve the flow based on data, not hype.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <p class="ai-command">$ ls ./practice</p>
+            <div class="skills-grid ai-practice">
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Daily workflow</h3>
+                    <p class="ai-card-text">Agentic coding, refactors, tests and reviews with AI coding agents, often several in parallel. I review every change.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Claude Code</span>
+                        <span class="skill-tag">Cursor</span>
+                        <span class="skill-tag">Copilot</span>
+                        <span class="skill-tag">MCP</span>
+                        <span class="skill-tag">Pi</span>
+                        <span class="skill-tag">Herdr</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Building with AI</h3>
+                    <p class="ai-card-text">RAG pipelines with LlamaIndex: ingestion, embeddings, retrieval and simple agents. I also run models locally to experiment.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">LlamaIndex</span>
+                        <span class="skill-tag">RAG</span>
+                        <span class="skill-tag">Embeddings</span>
+                        <span class="skill-tag">Agents</span>
+                        <span class="skill-tag">Ollama</span>
+                        <span class="skill-tag">LM Studio</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Team enablement</h3>
+                    <p class="ai-card-text">Bringing AI tools into the front-end chapter: shared guidelines, demos and knowledge sharing.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Guidelines</span>
+                        <span class="skill-tag">Knowledge sharing</span>
+                        <span class="skill-tag">Adoption</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-exploring">
+                <p>// currently experimenting with:</p>
+                <ul>
+                    <li>agent fleets: multiple agents working in parallel</li>
+                    <li>automating my day-to-day work responsibilities with Claude</li>
+                    <li>multiple local RAG setups for better information retrieval</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <!-- Experience Section -->
-    <section id="experience" class="section section-alt">
+    <section id="experience" class="section">
         <div class="container">
             <h2 class="section-title">Experience</h2>
             
@@ -186,7 +305,7 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="section">
+    <section id="skills" class="section section-alt">
         <div class="container">
             <h2 class="section-title">Skills</h2>
             <div class="skills-grid">
@@ -261,7 +380,7 @@
     </section>
 
     <!-- Education Section -->
-    <section id="education" class="section section-alt">
+    <section id="education" class="section">
         <div class="container">
             <h2 class="section-title">Education</h2>
             <div class="education-list">
@@ -275,7 +394,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section">
+    <section id="contact" class="section section-alt">
         <div class="container">
             <h2 class="section-title">Get In Touch</h2>
             <div class="contact-content">
@@ -285,6 +404,13 @@
                             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                         </svg>
                         LinkedIn
+                    </a>
+                    <a href="mailto:juxhinbleta@gmail.com" class="contact-link">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                            <path d="M22 6l-10 7L2 6"></path>
+                        </svg>
+                        juxhinbleta@gmail.com
                     </a>
                 </div>
             </div>
