@@ -1228,22 +1228,18 @@ body {
     }
 }
 
-/* Terminal-style reveal: quick CRT-like flicker instead of a slow fade */
+/* Terminal-style reveal: blocks step in quickly, no blinking back */
 .print {
     opacity: 0;
 }
 
 .print.printed {
-    animation: flickerIn 0.3s linear forwards;
+    animation: stepIn 0.25s steps(4, end) forwards;
 }
 
-@keyframes flickerIn {
-    0%   { opacity: 0; }
-    20%  { opacity: 0.8; }
-    35%  { opacity: 0.1; }
-    55%  { opacity: 1; }
-    70%  { opacity: 0.4; }
-    100% { opacity: 1; }
+@keyframes stepIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* Untyped part of the hero title keeps its space while hidden */
